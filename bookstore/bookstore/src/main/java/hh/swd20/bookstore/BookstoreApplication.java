@@ -22,32 +22,22 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository) {
+	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository crepository) {
 		return (args) -> {
 			log.info("save few books");
-			repository.save(new Book("Harry Potter ja viisasten kivi", "JK Rowling", 2001, "1224434", 30.00));
-			repository.save(new Book("Harry Potter ja salainen kammio", "JK Rowling", 2002, "134234234", 35.90));
-			
+			crepository.save(new Category("Fantasiakirjat"));
+			crepository.save(new Category("Tietokirjat"));
+
+			repository.save(new Book("Harry Potter ja viisasten kivi", "JK Rowling", 2001, "1224434", 30.00,
+					crepository.findByName("Fantasiakirjat").get(0)));
+			repository.save(new Book("Harry Potter ja salainen kammio", "JK Rowling", 2002, "134234234", 35.90,
+					crepository.findByName("Fantasiakirjat").get(0)));
+
 			log.info("fetch all books");
 			for (Book book : repository.findAll()) {
 				log.info(book.toString());
 			}
-			
-		};
-	}
-	
-	@Bean
-	public CommandLineRunner categoryDemo(CategoryRepository crepository) {
-		return (args) -> {
-			log.info("save few categories");
-			crepository.save(new Category("Fantasiakirjat"));
-			crepository.save(new Category("Tietokirjat"));
-			
-			log.info("fetch all categories");
-			for (Category category : crepository.findAll()) {
-				log.info(category.toString());
-			}
-		};
-	}
 
+		};
+	}
 }
