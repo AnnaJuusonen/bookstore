@@ -3,22 +3,22 @@ package hh.swd20.bookstore.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+
 @Entity
 public class Category {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long categoryid;
+	private Long categoryid;
 	private String name;
-	@OneToMany(cascade = CascadeType.ALL,mappedBy =
-			"category")
+	// täällä on jotain ongelmaa
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "category")
 	private List<Book> books;
 
 	
@@ -32,12 +32,12 @@ public class Category {
 		this.name = name;
 	}
 
-	public long getId() {
+	public Long getCategoryid() {
 		return categoryid;
 	}
 
-	public void setId(long id) {
-		this.categoryid = id;
+	public void setCategoryd(Long categoryid) {
+		this.categoryid = categoryid;
 	}
 
 	public String getName() {
@@ -48,11 +48,6 @@ public class Category {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Category [id=" + categoryid + ", name=" + name + "]";
-	}
-
 	public List<Book> getBooks() {
 		return books;
 	}
@@ -61,4 +56,8 @@ public class Category {
 		this.books = books;
 	}
 	
+	@Override
+	public String toString() {
+		return "Category [categoryid=" + categoryid + ", name=" + name + "]";
+	}
 }
